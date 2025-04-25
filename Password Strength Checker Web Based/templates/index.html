@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-xl space-y-6">
+        <h1 class="text-2xl font-bold text-center">🔐 Password Strength Checker</h1>
+        <form method="post" class="space-y-4">
+            <input type="text" name="password" placeholder="Enter your password" required
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition">
+                Check Strength
+            </button>
+        </form>
+
+        {% if strength %}
+        <div class="mt-6 space-y-4">
+            <div>
+                <h2 class="text-lg font-semibold mb-1">Password Strength:</h2>
+                <div class="w-full bg-gray-200 rounded-lg h-3 mb-2">
+                    <div class="h-3 rounded-lg transition-all duration-300 ease-in-out"
+                         style="width:
+                             {% if strength == 'Weak' %}33%
+                             {% elif strength == 'Moderate' %}66%
+                             {% else %}100%
+                             {% endif %};
+                             background-color:
+                             {% if strength == 'Weak' %}#f87171
+                             {% elif strength == 'Moderate' %}#facc15
+                             {% else %}#4ade80
+                             {% endif %};">
+                    </div>
+                </div>
+                <p class="{% if strength == 'Weak' %}text-red-600{% elif strength == 'Moderate' %}text-yellow-600{% else %}text-green-600{% endif %} font-medium">
+                    {{ strength }}
+                </p>
+            </div>
+
+            {% if feedback %}
+            <div>
+                <h3 class="font-medium text-gray-700">Suggestions:</h3>
+                <ul class="list-disc list-inside text-sm text-gray-600">
+                    {% for tip in feedback %}
+                        <li>{{ tip }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div>
+                <h3 class="font-medium text-gray-700">Suggested Strong Passwords:</h3>
+                <ul class="grid gap-2 text-sm text-gray-800">
+                    {% for pwd in suggestions %}
+                        <li class="bg-gray-100 px-3 py-2 rounded-md border">{{ pwd }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
